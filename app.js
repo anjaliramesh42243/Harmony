@@ -106,8 +106,55 @@ app.setHandler({
        
         }
             
+    LaunchIntent() {
+        let speech = this.speechBuilder().addText("Hey fam! Harmony here! Welcome back. Just letting you know you still have time to complete your habits for the day. What would you like to do? For a reminder of what I can help you with, just say, Help.")
+        this.followUpState(AskHelpState).ask(speech);
         
-               
+    },   
+          'AskHelpState' : {
+              'HelpIntent' : function() {
+                  let speech = this.speechBuilder.addText("You can say List my habits to hear what habits I have been tracking so far, Add a habit to start tracking a new habit, Remove a habit to stop tracking a habit, or Update my progress to see how often you've completed habits and build on that!)
+                  this.followUpState(HelpOptionsState).ask(speech)
+             }
+             'HelpOptionsState' : {
+              'ListIntent' : function() {
+                  let speech = this.speechBuilder.addText("So far you have 'Practicing gratitude' and 'Waking up early' on your habit board. What else can I help you with?")
+                  this.followUpState(HelpOptionsState).ask(speech)
+             }
+             'AddIntent' : function() {
+                 let speech = this.speechBuilder.addText("That's what I'm talking about! What habt would you like to add?")
+                 let habitAdded = this.$input.data.habit
+                 let speech = this.speechBuilder.addText("This is the start of another healthy journey. I'll add " + habit + "to your habit board. Anything else I can help you with?")
+                 this.followUpState(HelpOptionsState).ask(speech)
+             }
+              'RemoveIntent' : function() {
+                 let speech = this.speechBuilder.addText("No worries! You can find different ways to be healthy. Which habit on your board would you like to remove?")
+                 let habitRemoved = this.$input.data.habit
+                 let speech = this.speechBuilder.addText("I removed Practicing gratitude from your habit board. Would you like help with anything else?")
+             }
+              'UpdateIntent : function() {
+                 let speech = this.speechBuilder.addText("Of course! Have you completed 'Waking up early' today?")
+                 this.followUpState('ProgressUpdateState').ask(speech);      
+                 
+                                                         So far you've completed  for 1 day in a row! Have you  I'm also tracking 'Practicing gratitude' which could use a bit more focus.")
+                 this.followUpState(HelpOptionsState).ask(speech)
+             }
+              'NoIntent' : function() {
+                  let speech = this.speechBuilder.addText("Keep at it chief! See you soon.")
+                  this.tell(speech)
+              }
+
+          }
+           
+      'ProgressUpdateState' : {
+          'YesIntent' : function() {
+              let speech = this.speechBuilder.addText("You're that much closer to your goals! I'll add a day")
+          }
+          'NoIntent' : function() {
+              
+          }
+      }
+        },     
                
 
     HelloWorldIntent() {
@@ -117,6 +164,7 @@ app.setHandler({
     MyNameIsIntent() {
         this.tell('Hey ' + this.$inputs.name.value + ', nice to meet you!');
     },
+        
 });
 
 module.exports.app = app;

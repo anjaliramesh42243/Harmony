@@ -25,6 +25,9 @@ app.use(
 // APP LOGIC
 // ------------------------------------------------------------------
 
+
+var habitArray = [];
+
 app.setHandler({
     LAUNCH() {
         this.toIntent('LaunchIntent')
@@ -108,7 +111,8 @@ app.setHandler({
                this.followUpState('ChooseCategoryState').ask(speech)
             }
             'NoneIntent' : function() {
-               let speech = this.speechBuilder.addText("You got it! Would you like to give me a habit to start tracking?")
+               let speech = this.speechBuilder.addText("You got it! Would you like to give me a habit to start tracking?");
+               this.followUpState('StartTrackingHabitState').ask(speech);
             }
                
         }
@@ -129,12 +133,64 @@ app.setHandler({
         }
                
         'StartTrackingHabitState' : {
-            //yes/no to habit tracking starts here
+            'YesIntent' : function() {
+               let speech = this.speechBuilder.addText("Great! What habit would you like to start tracking?");
+               this.followUpState('FirstHabitState').ask(speech);
+               }
+            'NoIntent' : function() {
+               let speech = this.speechBuilder.addText("That's ok! You can always add a new habit later. I look forward to hearing about your goals when you're ready.");
+               this.tell(speech);
+               }
+            'Unhandled' : function() {
+               let speech = this.speechBuilder.addText("Hey, can you say yes or no?");
+               this.followUpState('StartTrackingHabitState').ask(speech);
+               }
+        }
+               
+        'FirstHabitState' : {
+            'AddFirstHabitIntent' : function(habit) {
+               let speech = this.speechBuilder.addText("Healthy habits lead to a healthy life without even thinking about it.") //more encouragement statements can be rotated through here
+               
+               .addText("I'll add " + habit.value + "to your board. Would you like to add another habit to your board?");
+               habitArray.push(habit.value);
+               this.followUpState('StartAnotherHabitState').ask(speech);
+               }
+        }
+               
+        'StartAnotherHabitState' : {
+            'YesIntent' : function() {
+               let speech = this.speechBuilder.addText("Ok! I'm ready to hear it. What habit are we going to track?");
+               this.followUpState('AddAnotherHabitState').ask(speech);
+               }
+            'NoIntent' : function() {
+               let speech = this.speechBuilder.addText("Ok! If you think of anything else, just say 'I'd like to add a habit'. Would you like to set up daily reminders for your habit board?")
+               this.followUpState('RemindersState').ask(speech);               }
+        }
+        
+        'AddAnotherHabitState' : {
+            'AddHabitIntent' : function(nextHabit) {
+               let speech = this.speechBuilder.addText("That's a good one!") //encouragement statements
+               
+               .addText("I'll put " + nextHabit.value + "on your board. Let me know at any time if you've completed your habit for the day. Would you like to set up any more habits?");
+               habitArray.push(nextHabit.value);
+               this.followUpState('StartAnotherHabitState').ask(speech);
+               }
+        }
+               
+        'RemindersState' : {
+            'YesIntent' : function() {
+               let speech = this.speechBuilder.addText("Will do! I'll remind you in the evening to track your habits.");
+               //ask about specific times to remind user about tracking habits
+               }
+            'NoIntent' : function() {
+               let speech = this.speechBuilder.addText("No problem! If you decide later you want to turn them on, just say 'Start reminding me of my habits.' Just don't forget about me and let me know when you accomplish tasks. I'm always excited to hear about your progress!");
+               this.tell(speech);
+               }
         }
        
             
     LaunchIntent() {
-        let speech = this.speechBuilder().addText("Hey fam! Harmony here! Welcome back. Just letting you know you still have time to complete your habits for the day. What would you like to do? For a reminder of what I can help you with, just say, Help.")
+               let speech = this.speechBuilder().addText("Hey fam! Harmony here! Welcome back. Just letting you know you still have time to complete your habits for the day. What would you like to do? For a reminder of what I can help you with, just say, Help.");
         this.followUpState('AskHelpState').ask(speech);
         
     },   
@@ -163,7 +219,7 @@ app.setHandler({
                  let speech = this.speechBuilder.addText("Of course! Have you completed 'Waking up early' today?")
                  this.followUpState('ProgressUpdateState').ask(speech);      
                  
-                                                         So far you've completed  for 1 day in a row! Have you  I'm also tracking 'Practicing gratitude' which could use a bit more focus.")
+                                                So far you've completed  for 1 day in a row! Have you  I'm also tracking 'Practicing gratitude' which could use a bit more focus.")
                  this.followUpState(HelpOptionsState).ask(speech)
              }
               'NoIntent' : function() {

@@ -27,6 +27,7 @@ app.use(
 
 
 var habitArray = [];
+var habitCount = 0;
 
 app.setHandler({
     LAUNCH() {
@@ -191,28 +192,29 @@ app.setHandler({
             
     LaunchIntent() {
         let speech = this.speechBuilder().addText("Hey fam! Harmony here! Welcome back. Just letting you know you still have time to complete your habits for the day. What would you like to do? For a reminder of what I can help you with, just say, Help.");
-        this.followUpState('AskHelpState').ask(speech);
+        this.followUpState('HelpOptionstate').ask(speech);
         
     },   
           'HelpOptionsState' : {
               'HelpIntent' : function() {
-                  let speech = this.speechBuilder.addText("You can say List my habits to hear what habits I have been tracking so far, Add a habit to start tracking a new habit, Remove a habit to stop tracking a habit, or Update my progress to see how often you've completed habits and build on that!");
+                  let speech = this.speechBuilder.addText("You can say List my habits to hear what habits I have been tracking so far, Add a habit to start tracking a new habit, Remove a habit to stop tracking a habit, or Update my progress to let me know which habits you've completed today");
                   this.followUpState('HelpOptionsState').ask(speech)
              }
          
               'ListIntent' : function() {
                   // User Persistence: Habits Tracked
-                  let speech = this.speechBuilder.addText("So far you have 'Practicing gratitude' and 'Waking up early' on your habit board. What else can I help you with?");
-                  // if (habitCount == 0)
-                  //    let speech = this.speechBuilder.addText("So far I am not tracking any habits for you. You can say 'Add a habit' to start a new journey with me.")
+                  if (habitCount > 0)
+                  let speech = this.speechBuilder.addText("You are currently tracking "+ habitCount + "habits." + habitArray + What else can I help you with?");
+                  else
+                      let speech = this.speechBuilder.addText("So far I am not tracking any habits for you. You can say 'Add a habit' to start a new journey with me.")
                   this.followUpState('HelpOptionsState').ask(speech)
              }
              'AddIntent' : function() {
                  // Encouragement Line
-                 let speech = this.speechBuilder.addText("That's what I'm talking about! What habit would you like to add?")
-                 let habitAdded = this.$input.data.habit
-                 // Encouragement Line
-                 let speech = this.speechBuilder.addText("This is the start of another healthy journey. I'll add " + habit + "to your habit board. Anything else I can help you with?")
+                 let speech = this.speechBuilder.addText("That's what I'm talking about!", "You're on a roll dude!", "Another day, another habit being formed", "Way to bring it today!")
+                 let speech = this.speechBuilder.addText("What habit would you like to add?")
+                 let habitAdded = this.$input.data.habitAdded
+                 let speech = this.speechBuilder.addText("This is the start of another healthy journey. I'll add " + habitAdded + "to your habit board. Anything else I can help you with?")
                  this.followUpState('HelpOptionsState').ask(speech)
              }
               'RemoveIntent' : function() {

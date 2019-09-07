@@ -220,10 +220,22 @@ app.setHandler({
                  // Encouragement Line (removing habit specific)
                  if (habitCount > 0)
                      let speech = this.speechBuilder.addText("No worries! You can find different ways to be healthy.", "Producitivity doesn't always equal happiness", "We'll find something that gives you more satisfaction in the future!")
+                     {
                      let speech = this.speechBuilder.addText("Which habit on your board would you like to remove?")
                      let habitRemoved = this.$input.data.habitRemoved
-                     if(habitR
+                     bool found = false
+                     for (int i : habitArray) {
+                        if (habitArray[i] == habitRemoved) 
+                             array.splice(index, i)
+                             found = true
+                    }
+                    if (found)
                      let speech = this.speechBuilder.addText("I removed " + habitRemoved + " from your habit board. Would you like help with anything else?")
+                     //else
+                     //    let speech = this.speechBuilder.addText("I did not find that habit. Would you like to try again?")
+                     //    let tryResponse = this.$input.data.tryResponse
+                     //    if 
+                     //}
                   else
                         let speech = this.speechBuilder.addText("I'm currently not tracking any habits to remove. Is there anything else you need help with?") 
              }
@@ -244,10 +256,10 @@ app.setHandler({
                  this.followUpState('HelpOptionsState').ask(speech)
              }
               'Unhandled' : function(){
-                  let speech = this.speechBuilder.addText("Not sure what you're telling me. You can choose "Add a habit", "List habits", "Remove a habit", "Check my progress", or tell me you've completed one of your habits for the day. If you'd like an explanation on these, say 'Help'. If you'd like to get going, say 'Goodbye'")
+                  let speech = this.speechBuilder.addText("Not sure what you're telling me. You can choose "Add a habit", "List habits", "Remove a habit", or "Update my progress". If you'd like an explanation on these, say 'Help'. If you'd like to get going, say 'Goodbye'")
                   this.followUpState('HelpOptionsState').ask(speech)
           }
-              'NoIntent' : function() {
+              'GoodbyeIntent' : function() {
                   let speech = this.speechBuilder.addText("Keep at it chief! See you soon.")
                   this.tell(speech)
               }

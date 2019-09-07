@@ -210,7 +210,6 @@ app.setHandler({
                   this.followUpState('HelpOptionsState').ask(speech)
              }
              'AddIntent' : function() {
-                 // Encouragement Line
                  let speech = this.speechBuilder.addText("That's what I'm talking about!", "You're on a roll dude!", "Another day, another habit being formed", "Way to bring it today!")
                  let speech = this.speechBuilder.addText("What habit would you like to add?")
                  let habitAdded = this.$input.data.habitAdded
@@ -219,12 +218,14 @@ app.setHandler({
              }
               'RemoveIntent' : function() {
                  // Encouragement Line (removing habit specific)
-                 // if (habitCount == 0)
-                 //     let speech = this.speechBuilder.addText("I'm currently not tracking any habits to remove. Is there anything else you need help with?")
-                 // else if (habitCount >= 1)
-                        let speech = this.speechBuilder.addText("No worries! You can find different ways to be healthy. Which habit on your board would you like to remove?")
-                        let habitRemoved = this.$input.data.habit
-                        let speech = this.speechBuilder.addText("I removed 'Practicing Gratitude' from your habit board. Would you like help with anything else?")
+                 if (habitCount > 0)
+                     let speech = this.speechBuilder.addText("No worries! You can find different ways to be healthy.", "Producitivity doesn't always equal happiness", "We'll find something that gives you more satisfaction in the future!")
+                     let speech = this.speechBuilder.addText("Which habit on your board would you like to remove?")
+                     let habitRemoved = this.$input.data.habitRemoved
+                     if(habitR
+                     let speech = this.speechBuilder.addText("I removed " + habitRemoved + " from your habit board. Would you like help with anything else?")
+                  else
+                        let speech = this.speechBuilder.addText("I'm currently not tracking any habits to remove. Is there anything else you need help with?") 
              }
               'UpdateIntent : function() {
                 let speech = this.speechBuilder.addText("Of course!")

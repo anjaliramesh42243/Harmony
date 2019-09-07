@@ -236,16 +236,16 @@ app.setHandler({
                      //    let tryResponse = this.$input.data.tryResponse
                      //    if 
                      //}
-                  else
+                  else if (habitCount == 0)
                         let speech = this.speechBuilder.addText("I'm currently not tracking any habits to remove. Is there anything else you need help with?") 
              }
               'UpdateIntent : function() {
                 let speech = this.speechBuilder.addText("Of course!")
-                 // if (habitCount == 0)
+                 if (habitCount == 0)
                       let speech = this.speechBuilder.addText("I'm currently not tracking any habits that I can update. You can say 'Add a habit' to start a tracking your progress")
-                 // else if (habitCount >= 1)
-                 //     for(i in habitList)
-                 //         if (habitList[i] == 0)
+                 else if (habitCount >= 1)
+                      for(int i : habitArray)
+                          if (habitArray[i] == 0)
                                 // User Persistence: habits tracked
                                 let speech = this.speechBuilder.addText("I'm tracking 'Practicing gratitude',but it could use a bit more focus. It has a streak of 0")
                  //         else

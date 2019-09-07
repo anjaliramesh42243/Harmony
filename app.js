@@ -204,7 +204,7 @@ app.setHandler({
               'ListIntent' : function() {
                   // User Persistence: Habits Tracked
                   if (habitCount > 0)
-                  let speech = this.speechBuilder.addText("You are currently tracking "+ habitCount + "habits." + habitArray + What else can I help you with?");
+                      let speech = this.speechBuilder.addText("You are currently tracking "+ habitCount + "habits:" + habitArray + "What else can I help you with?");
                   else
                       let speech = this.speechBuilder.addText("So far I am not tracking any habits for you. You can say 'Add a habit' to start a new journey with me.")
                   this.followUpState('HelpOptionsState').ask(speech)
@@ -213,6 +213,7 @@ app.setHandler({
                  let speech = this.speechBuilder.addText("That's what I'm talking about!", "You're on a roll dude!", "Another day, another habit being formed", "Way to bring it today!")
                  let speech = this.speechBuilder.addText("What habit would you like to add?")
                  let habitAdded = this.$input.data.habitAdded
+                 habitArray.append(habitAdded)
                  let speech = this.speechBuilder.addText("This is the start of another healthy journey. I'll add " + habitAdded + "to your habit board. Anything else I can help you with?")
                  this.followUpState('HelpOptionsState').ask(speech)
              }
@@ -233,11 +234,14 @@ app.setHandler({
                      let speech = this.speechBuilder.addText("I removed " + habitRemoved + " from your habit board. Would you like help with anything else?")
                      //else
                      //    let speech = this.speechBuilder.addText("I did not find that habit. Would you like to try again?")
+                     //     if yes, loop through. if no, exit out
                      //    let tryResponse = this.$input.data.tryResponse
                      //    if 
                      //}
                   else if (habitCount == 0)
                         let speech = this.speechBuilder.addText("I'm currently not tracking any habits to remove. Is there anything else you need help with?") 
+                        
+                  this.followUpState('HelpOptionsState').ask(speech)
              }
               'UpdateIntent : function() {
                 let speech = this.speechBuilder.addText("Of course!")

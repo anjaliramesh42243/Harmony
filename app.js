@@ -51,7 +51,7 @@ app.setHandler({
             },
 
             'Unhandled' : function() {
-                let speech = this.speechBuilder().addText("Hey could you say yes or no?");
+                let speech = this.speechBuilder().addText("Sorry, I'm new to this and still learning. Could you repeat with yes or no?");
                 this.followUpState('WantHelpState').ask(speech);
             }
         },
@@ -74,7 +74,7 @@ app.setHandler({
             }
                
            'Unhandled' : function() {
-               let speech = this.speechBuilder().addText("Hey, could you say yes or no?");
+               let speech = this.speechBuilder().addText("Sorry, I'm new to this and still learning. Could you repeat with yes or no?");
                this.followUpState('GettingStartedState').ask(speech);
            }
         }
@@ -128,7 +128,7 @@ app.setHandler({
                this.followUpState('StartTrackingHabitState').ask(speech);
                }
             'Unhandled' : function() {
-               let speech = this.speechBuilder.addText("Hey, could you say yes or no?");
+               let speech = this.speechBuilder.addText("Sorry, I'm new to this and still learning. Could you repeat with yes or no?");
                this.followUpState('WhichAreaState').ask(speech);
                }
         }
@@ -143,7 +143,7 @@ app.setHandler({
                this.tell(speech);
                }
             'Unhandled' : function() {
-               let speech = this.speechBuilder.addText("Hey, can you say yes or no?");
+               let speech = this.speechBuilder.addText("Sorry, I'm new to this and still learning. Could you repeat with yes or no?");
                this.followUpState('StartTrackingHabitState').ask(speech);
                }
         }
@@ -180,14 +180,25 @@ app.setHandler({
                
         'RemindersState' : {
             'YesIntent' : function() {
-               let speech = this.speechBuilder.addText("Will do! I'll remind you in the evening to track your habits.");
-               // ask about specific times to remind user about tracking habits
+               let speech = this.speechBuilder.addText("Will do! What time do you want me to remind you of this habit? Remember to include AM or PM!");
+               this.followUpState('ReminderTimeState').ask(speech);
                }
             'NoIntent' : function() {
                let speech = this.speechBuilder.addText("No problem! If you decide later you want to turn them on, just say 'Start reminding me of my habits.' Just don't forget about me and let me know when you accomplish tasks. I'm always excited to hear about your progress!");
                this.tell(speech);
                }
+            
+        'ReminderTimeState' : {
+            'RemindTimeIntent' function(inputTime) {
+                let speech = this.speechBuilder.addText("Sounds good! I'll remind you to " + nextHabit.value + "at" + inputTime.value);
+                .addText("Would you like to add another habit to your board?");
+                this.followUpState('StartAnotherHabitState').ask(speech);
+            }
+            'Unhandled' : function() {
+                let speech = this.speechBuilder.addText("Sorry, I'm new to this and still learning. Could you give me a time?")
+            }
         }
+        
        
             
     LaunchIntent() {

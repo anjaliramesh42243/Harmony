@@ -254,7 +254,7 @@ app.setHandler({
                         
                   this.followUpState('HelpOptionsState').ask(speech)
              }
-              'UpdateIntent : function() {
+              'UpdateIntent' : function() {
                 let speech = this.speechBuilder.addText("Of course!")
                  if (habitCount == 0)
                       let speech = this.speechBuilder.addText("I'm currently not tracking any habits that I can update. You can say 'Add a habit' to start a tracking your progress")

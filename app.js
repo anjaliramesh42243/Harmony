@@ -208,13 +208,13 @@ app.setHandler({
     },   
           'HelpOptionsState' : {
               'HelpIntent' : function() {
-                  let speech = this.speechBuilder.addText("You can say List my habits to hear what habits I have been tracking so far, Add a habit to start tracking a new habit, Remove a habit to stop tracking a habit, or Update my progress to let me know which habits you've completed today");
+                  let speech = this.speechBuilder.addText("You can say 'List my habits' to hear what habits I have been tracking so far, 'Add a habit' to start tracking a new habit, 'Remove a habit' to stop tracking a habit, or 'Update my progress' to let me know which habits you've completed today");
                   this.followUpState('HelpOptionsState').ask(speech)
              }
          
               'ListIntent' : function() {
                   // User Persistence: Habits Tracked
-                  if (habitCount > 0)
+                  if (habitCountArray.length > 0)
                   {
                       let speech = this.speechBuilder.addText("We are currently tracking "+ habitCount + "habits:") 
                       for(int i = 0; i < habitArray.length; i++)
@@ -232,16 +232,15 @@ app.setHandler({
                  let speech = this.speechBuilder.addText("What habit would you like to add?")
                  let habitAdded = this.$input.data.habitAdded
                  habitArray.push(habitAdded)
-                 //var habitA = 0;
+                 
                  habitCountArray.push(0);
                  let speech = this.speechBuilder.addText("This is the start of another healthy journey. I'll add " + habitAdded + "to your habit board. Anything else I can help you with?")
                  this.followUpState('HelpOptionsState').ask(speech)
              }
               'RemoveIntent' : function() {
                  // Encouragement Line (removing habit specific)
-                 if (habitCount > 0)
+                 if (habitCountArray.length > 0)
                  {
-                     let speech = this.speechBuilder.addText("No worries! You can find different ways to be healthy.", "Producitivity doesn't always equal happiness", "We'll find something that gives you more satisfaction in the future!")
                      let speech = this.speechBuilder.addText("Which habit on your board would you like to remove?")
                      let habitRemoved = this.$input.data.habitRemoved
                      bool found = false
@@ -255,30 +254,28 @@ app.setHandler({
                         }
                      }
                     if (found)
+                        let speech = this.speechBuilder.addText("No worries! You can find different ways to be healthy.", "Producitivity doesn't always equal happiness", "We'll find something that gives you more satisfaction in the future!")
                         let speech = this.speechBuilder.addText("I removed " + habitRemoved + " from your habit board. Would you like help with anything else?")
                     else
                     {
                          let speech = this.speechBuilder.addText("I did not find that habit. Would you like to try again?")
-                         
+                         this.followUpState('TryResponseState').ask(speech)
                          //   if yes, loop through. if no, exit out
                          //   not sure how to either compare a user variable to 'yes' or to go from separate state/ intent then jump 
                          //     back into the found loop
                          //
                          // maybe ask user "to try again, say you'd like to remove a habit" then go back to the top of RemoveIntent
                          
-                         this.followUpState('TryResponseState').ask(speech)
-                         let tryResponse = this.$input.data.tryResponse
-                         
                      }        
                   }
-                  else if (habitCount == 0)
+                  else if (habitCountArray.length == 0)
                         let speech = this.speechBuilder.addText("I'm currently not tracking any habits to remove. Is there anything else you need help with?") 
                         
                   this.followUpState('HelpOptionsState').ask(speech)
              }
               'UpdateIntent' : function() {
                 let speech = this.speechBuilder.addText("Of course!")
-                 if (habitCount == 0)
+                 if (habitCountArray.length == 0)
                       let speech = this.speechBuilder.addText("I'm currently not tracking any habits that I can update. You can say 'Add a habit' to start a tracking your progress")
                  else if (habitCount >= 1)
                       for(int i = 0; i < habitArray.length; i++)
@@ -315,9 +312,11 @@ app.setHandler({
           
       'TryResponseState' : {
           'YesIntent' : function() {
-              
+              return this.toStateIntent(HelpOptionsState, RemoveIntent);
           }
           'NoIntent' : function() {
+              let speech = this.speechBuilder.addText("No problem! What else can I help you with?")
+              this.followUpState('HelpOptionsState').ask(speech)
           }
       
         },     

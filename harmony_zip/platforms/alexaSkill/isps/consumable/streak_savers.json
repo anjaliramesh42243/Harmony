@@ -1,0 +1,52 @@
+{
+  "version": "1.0",
+  "type": "CONSUMABLE",
+  "referenceName": "streak_savers",
+  "publishingInformation": {
+    "locales": {
+      "en-US": {
+        "name": "Streak Savers",
+        "smallIconUri": "TODO: REPLACE THIS WITH URI TO A 108 X 108px PNG IMAGE",
+        "largeIconUri": "TODO: REPLACE THIS WITH URI TO A 512 X 512px PNG IMAGE",
+        "summary": "Restore your lost streak with a streak saver!",
+        "description": "One streak saver will restore the streak for one habit.",
+        "examplePhrases": [
+          "Alexa, buy a streak saver"
+        ],
+        "keywords": [
+          "streak saver", 
+          "streak", 
+          "saver"
+        ],
+        "customProductPrompts": {
+          "purchasePromptDescription": "Do you want to buy a streak saver?",
+          "boughtCardDescription": "Nice! You have successfully purchased one streak saver."
+        }
+      }
+    },
+    "distributionCountries": [
+      "US"
+    ],
+    "pricing": {
+      "amazon.com": {
+        "releaseDate": "2019-09-20",
+        "defaultPriceListing": {
+          "price": 0.99,
+          "currency": "USD"
+        }
+      }
+    },
+    "taxInformation": {
+      "category": "SOFTWARE"
+    }
+  },
+  "privacyAndCompliance": {
+    "locales": {
+      "en-US": {
+        "privacyPolicyUrl": "TODO: REPLACE THIS WITH URL TO YOUR OWN PRIVACY POLICY"
+      }
+    }
+  },
+  "testingInstructions": "Purchase a streak saver in order to restore a streak that has been lost.",
+  "purchasableState": "PURCHASABLE"
+}

@@ -1,0 +1,14 @@
+{
+  "deploy_settings": {
+    "default": {
+      "skill_id": "",
+      "was_cloned": false,
+      "in_skill_products": [
+        {
+          "deploy_status": "Add",
+          "filePath": "isps/consumable/streak_savers.json"
+        }
+      ]
+    }
+  }
+}

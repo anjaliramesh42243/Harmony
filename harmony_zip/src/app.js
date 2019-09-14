@@ -191,17 +191,6 @@ app.setHandler({
         'ReminderTimeState' : {
             'RemindTimeIntent' function(inputTime) {
                 let speech = this.speechBuilder.addText("Sounds good! I'll remind you to " + nextHabit.value + "at" + inputTime.value);
-                await this.$alexaSkill.$user.setReminder(reminder);
-                async AddReminderIntent() {
-                    const reminder = {
-                        "requestTime" : 
-                        "trigger" : {
-                            "type" : SCHEDULED_ABSOLUTE",
-                            "scheduledTime" : inputTime
-                        }
-
-                    }
-                }
                 .addText("Would you like to add another habit to your board?");
                 this.followUpState('StartAnotherHabitState').ask(speech);
             }
@@ -239,6 +228,12 @@ app.setHandler({
                   this.followUpState('HelpOptionsState').ask(speech)
              }
              'AddIntent' : function() {
+                 if(habitArray.length == 2)
+                 {
+                     let speech = this.speechBuilder.addText("To add another habit, you can say 'Purchase Unlimited Habits'. For $0.99, I can track unlimited habits for you. If not, just say 'No Thanks'")
+                     this.followUpState('PurchaseState').ask(speech)
+                 else
+                 {
                  let speech = this.speechBuilder.addText("That's what I'm talking about!", "You're on a roll dude!", "Another day, another habit being formed", "Way to bring it today!")
                  let speech = this.speechBuilder.addText("What habit would you like to add?")
                  let habitAdded = this.$input.data.habitAdded
@@ -247,6 +242,7 @@ app.setHandler({
                  habitCountArray.push(0);
                  let speech = this.speechBuilder.addText("This is the start of another healthy journey. I'll add " + habitAdded + "to your habit board. Anything else I can help you with?")
                  this.followUpState('HelpOptionsState').ask(speech)
+                 }
              }
               'RemoveIntent' : function() {
                  // Encouragement Line (removing habit specific)
@@ -307,7 +303,18 @@ app.setHandler({
               }
 
           }
-           
+        'PurchaseState' : {
+          'BuyUnlimitedIntent' : function() {
+              
+          }
+          'BuySaversIntent' : function() {  
+              
+          }
+          'NoIntent' : function() {
+              let speech = this.speechBuilder.addText("No problem! What else can I help you with?")
+              this.followUpState('HelpOptionsState').ask(speech)
+          }
+        } 
       'ProgressUpdateState' : {
           'YesIntent' : function() {
               //Encouragement Line
@@ -331,7 +338,7 @@ app.setHandler({
           }
       
         },     
-               
+       
 
     HelloWorldIntent() {
         this.ask('Hello World! What\'s your name?', 'Please tell me your name.');

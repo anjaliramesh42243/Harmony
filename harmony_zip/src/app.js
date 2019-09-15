@@ -28,6 +28,7 @@ app.use(
 
 var habitArray = [];
 var habitCountArray = [];
+var streakSaverCount =0;
 
 app.setHandler({
     LAUNCH() {
@@ -191,43 +192,6 @@ app.setHandler({
         'ReminderTimeState' : {
             'RemindTimeIntent' function(inputTime) {
                 let speech = this.speechBuilder.addText("Sounds good! I'll remind you to " + nextHabit.value + "at" + inputTime.value);
-                await this.$alexaSkill.$user.setReminder(reminder);
-                async AddReminderIntent() {
-                    const reminder = {
-                    "requestTime" : "2019-09-22T19:04:00.672",
-                    "trigger": {
-                            "type" : "SCHEDULED_ABSOLUTE",
-                            "scheduledTime" : "2019-09-22T19:00:00.000",
-                            "timeZoneId" : "America/Los_Angeles",
-                            "recurrence" : {                     
-                                "freq" : "DAILY",               
-                                //"byDay": ["MO"]                 
-                            }
-                    },
-                    "alertInfo": {
-                            "spokenInfo": {
-                                "content": [{
-                                    "locale": "en-US", 
-                                    "text": "Hey it's Harmony, reminding you to complete " + nextHabit.value + " if you haven't already! If you have, let me know!";
-                                }]
-                            }
-                        },
-                        "pushNotification" : {                            
-                            "status" : "ENABLED"
-                        }
-                    };
-                    try {
-                        const result = await this.$alexaSkill.$user.setReminder(reminder);
-                        this.tell('Reminder has been set!');
-                    } catch(error) {
-                        if (error.code === 'NO_USER_PERMISSION') {
-                            this.tell('Please grant me permission to set reminders.');
-                        } else {
-                            console.error(error);
-                            //Do something
-                        }
-                        }
-                    }
                 .addText("Would you like to add another habit to your board?");
                 this.followUpState('StartAnotherHabitState').ask(speech);
             }
@@ -322,11 +286,22 @@ app.setHandler({
                  if (habitCountArray.length == 0)
                       let speech = this.speechBuilder.addText("I'm currently not tracking any habits that I can update. You can say 'Add a habit' to start a tracking your progress")
                  else if (habitCount >= 1)
+                 {
                       for(int i = 0; i < habitArray.length; i++)
                       {
+                             if (date > prevDate+1)
+                             {
+                                let speech = this.speechBuilder.addText("Heads Up! Your streak for" + habitArray[i] + "has been reset to zero because a day was missed.")
+                                if (streakSaverCount > 0)
+                                {
+                                    let speech = this.speechBuilder.addText("Would you like to use a streak saver on this habit?")
+                                    this.followUpState('StreakSaverState')
+                                }
                             let speech = this.speechBuilder.addText("Have you completed " + habitArray[i] +" today?")
                             this.followUpState('ProgressUpdateState').ask(speech);
                       }
+                 }
+                 let speech = this.speechBuilder.addText("In case you need it, you can purchase a streak saver for 50 cents to start your streak where you left off if you missed a day. Just tell me you'd like to buy a streak saver.")
                  let speech = this.speechBuilder.addText("Anything else I can help you with?")
                  this.followUpState('HelpOptionsState').ask(speech)
              }
@@ -340,17 +315,17 @@ app.setHandler({
               }
 
           }
-        'PurchaseState' : {
-          'BuyUnlimitedIntent' : function() {
-              
-          }
-          'BuySaversIntent' : function() {  
-              
-          }
-          'NoIntent' : function() {
-              let speech = this.speechBuilder.addText("No problem! What else can I help you with?")
-              this.followUpState('HelpOptionsState').ask(speech)
-          }
+        
+      'BuyUnlimitedIntent' : function() {
+
+      }
+      'BuySaversIntent' : function() {  
+         streakSaverCount++;
+      }
+      'NoIntent' : function() {
+          let speech = this.speechBuilder.addText("No problem! What else can I help you with?")
+          this.followUpState('HelpOptionsState').ask(speech)
+          
         } 
       'ProgressUpdateState' : {
           'YesIntent' : function() {
@@ -373,12 +348,23 @@ app.setHandler({
               let speech = this.speechBuilder.addText("No problem! What else can I help you with?")
               this.followUpState('HelpOptionsState').ask(speech)
           }
+          
+      'StreakSaverState' : {
+          'YesIntent' : function() {
+              let speech = this.speechBuilder.addText("Sounds good! Your streak has been revived to " + habitCountArray[i])
+              
+          }
+          'NoIntent' : function() {
+              habitCountArray[i] = 0
+              let speech = this.speechBuilder.addText("No problem. You'll be able to build it back up in no time!")     
+          }
+      }
       
         },     
        
 
     HelloWorldIntent() {
-        this.ask('Hello World! What\'s your name?', 'Please tell me your name.');
+        this.ask("Hello World! What's your name?", 'Please tell me your name.');
     },
 
     MyNameIsIntent() {

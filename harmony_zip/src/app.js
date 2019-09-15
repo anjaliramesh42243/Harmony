@@ -216,7 +216,7 @@ app.setHandler({
                   // User Persistence: Habits Tracked
                   if (habitCountArray.length > 0)
                   {
-                      let speech = this.speechBuilder.addText("We are currently tracking "+ habitCount + "habits:") 
+                      let speech = this.speechBuilder.addText("We are currently tracking "+ habitCount.length + "habits:") 
                       for(int i = 0; i < habitArray.length; i++)
                       {
                           let speech = this.speechBuilder.addText(habitArray[i])

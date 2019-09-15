@@ -192,6 +192,49 @@ app.setHandler({
         'ReminderTimeState' : {
             'RemindTimeIntent' function(inputTime) {
                 let speech = this.speechBuilder.addText("Sounds good! I'll remind you to " + nextHabit.value + "at" + inputTime.value);
+                await this.$alexaSkill.$user.setReminder(reminder);
+                // Example
+                async AddReminderIntent() {
+                    const reminder = {
+                        // Your reminder
+                        "requestTime" : "$inputTime",
+                        "trigger": {
+                                "type" : "SCHEDULED_ABSOLUTE",
+                                "scheduledTime" : "2019-09-22T19:00:00.000",
+                                "timeZoneId" : "America/Los_Angeles",
+                                "recurrence" : {                     
+                                    "freq" : "WEEKLY",               
+                                    "byDay": ["MO"]                 
+                                }
+                        },
+                        "alertInfo": {
+                                "spokenInfo": {
+                                    "content": [{
+                                        "locale": "en-US", 
+                                        "text": "walk the dog"
+                                    }]
+                                }
+                            },
+                            "pushNotification" : {                            
+                                "status" : "ENABLED"
+                            }
+                        }
+                };
+
+                    try {
+                        const result = await this.$alexaSkill.$user.setReminder(reminder);
+
+                        this.tell('Reminder has been set.');
+
+                    } catch(error) {
+                        if (error.code === 'NO_USER_PERMISSION') {
+                            this.tell('Please grant the permission to set reminders.');
+                        } else {
+                            console.error(error);
+                            // Do something
+                        }
+                    }
+                },
                 .addText("Would you like to add another habit to your board?");
                 this.followUpState('StartAnotherHabitState').ask(speech);
             }

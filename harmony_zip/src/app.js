@@ -286,7 +286,7 @@ app.setHandler({
                  if (habitCountArray.length == 0)
                       let speech = this.speechBuilder.addText("I'm currently not tracking any habits that I can update. You can say 'Add a habit' to start a tracking your progress")
                  else if (habitCount >= 1)
-                 {
+                 { 
                       for(int i = 0; i < habitArray.length; i++)
                       {
                              if (date > prevDate+1)
@@ -362,11 +362,6 @@ app.setHandler({
       
         },     
        
-
-    HelloWorldIntent() {
-        this.ask("Hello World! What's your name?", 'Please tell me your name.');
-    },
-
     MyNameIsIntent() {
         this.tell('Hey ' + this.$inputs.name.value + ', nice to meet you!');
     },

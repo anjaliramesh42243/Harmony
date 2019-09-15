@@ -7,6 +7,10 @@
         {
           "deploy_status": "Add",
           "filePath": "isps/consumable/streak_savers.json"
+        },
+        {
+          "deploy_status": "Add",
+          "filePath": "isps/entitlement/unlimited_habits.json"
         }
       ]
     }

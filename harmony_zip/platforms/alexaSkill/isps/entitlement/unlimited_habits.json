@@ -1,0 +1,53 @@
+{
+  "version": "1.0",
+  "type": "ENTITLEMENT",
+  "referenceName": "unlimited_habits",
+  "publishingInformation": {
+    "locales": {
+      "en-US": {
+        "name": "Habits Unlimited",
+        "smallIconUri": "TODO: REPLACE THIS WITH URI TO A 108 X 108px PNG IMAGE",
+        "largeIconUri": "TODO: REPLACE THIS WITH URI TO A 512 X 512px PNG IMAGE",
+        "summary": "Habits Unlimited lets you keep track of however many habits you want!",
+        "description": "Track as many habits as you would like.",
+        "examplePhrases": [
+          "Alexa, buy Habits Unlimited"
+        ],
+        "keywords": [
+          "habits unlimited",
+          "unlimited habits",
+          "habits",
+          "unlimited"
+        ],
+        "customProductPrompts": {
+          "purchasePromptDescription": "Do you want to purchase Habits Unlimited?",
+          "boughtCardDescription": "Yay! You have successfully purchased Habits Unlimited. You can now track as many habits as you would like."
+        }
+      }
+    },
+    "distributionCountries": [
+      "US"
+    ],
+    "pricing": {
+      "amazon.com": {
+        "releaseDate": "2019-09-20",
+        "defaultPriceListing": {
+          "price": 0.99,
+          "currency": "USD"
+        }
+      }
+    },
+    "taxInformation": {
+      "category": "SOFTWARE"
+    }
+  },
+  "privacyAndCompliance": {
+    "locales": {
+      "en-US": {
+        "privacyPolicyUrl": "TODO: REPLACE THIS WITH URL TO YOUR OWN PRIVACY POLICY"
+      }
+    }
+  },
+  "testingInstructions": "Purchase Habits Unlimited and then try adding unlimited habits.",
+  "purchasableState": "PURCHASABLE"
+}

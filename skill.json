@@ -1,0 +1,88 @@
+{
+  "manifest": {
+    "apis": {
+      "custom": {
+        "endpoint": {
+          "uri": "arn:aws:lambda:us-east-1:620469782227:function:harmonyFunction"
+        },
+        "interfaces": []
+      }
+    },
+    "manifestVersion": "1.0",
+    "permissions": [
+      {
+        "name": "alexa:devices:all:address:country_and_postal_code:read"
+      },
+      {
+        "name": "alexa::alerts:reminders:skill:readwrite"
+      },
+      {
+        "name": "alexa::alerts:reminders:skill:readwrite"
+      },
+      {
+        "name": "alexa::devices:all:notifications:write"
+      },
+      {
+        "name": "alexa::household:lists:read"
+      }
+    ],
+    "events": {
+	    "endpoint": {
+	      "uri": "arn:aws:lambda:us-east-1:620469782227:function:harmonyFunction"
+      },
+      "subscriptions": [
+        {
+          "eventName": "SKILL_ENABLED"
+        },
+        {
+          "eventName": "SKILL_DISABLED"
+        },
+        {
+          "eventName": "SKILL_PERMISSION_ACCEPTED"
+        },
+        {
+          "eventName": "SKILL_PERMISSION_CHANGED"
+        },
+        {
+          "eventName": "SKILL_ACCOUNT_LINKED"
+        },
+        {
+          "eventName": "ITEMS_CREATED"
+        },
+        {
+          "eventName": "ITEMS_UPDATED"
+        },
+        {
+          "eventName": "ITEMS_DELETED"
+        },
+        {
+          "eventName": "LIST_CREATED"
+        },
+        {
+          "eventName": "LIST_UPDATED"
+        },
+        {
+          "eventName": "LIST_DELETED"
+        }
+      ]
+    },
+    "privacyAndCompliance": {
+      "locales": {
+        "en-US": {}
+      }
+    },
+    "publishingInformation": {
+      "locales": {
+        "en-US": {
+          "name": "Harmony the Habit Helper",
+          "smallIconUri": "https://s3.amazonaws.com/CAPS-SSE/echo_developer/1b88/2ee1138e04fe411cae3a788cc7dad901/APP_ICON?versionId=Ila7kG9YdIIU0cGZ_nLZff1hUk5K9aRr&X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Date=20191008T184739Z&X-Amz-SignedHeaders=host&X-Amz-Expires=86400&X-Amz-Credential=AKIAJFEYRBGIHK2BBYKA%2F20191008%2Fus-east-1%2Fs3%2Faws4_request&X-Amz-Signature=7f5fc63eef412090bf2fc83101e7a4a6035b953ccc00d39e188822e9decfa0f7",
+          "largeIconUri": "https://s3.amazonaws.com/CAPS-SSE/echo_developer/c69d/8badeb8db5af4547adaa75698e8e7f42/APP_ICON_LARGE?versionId=r8Dw0ZS7Pxpz0eG_ee3D5SmjhbFEFvXu&X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Date=20191008T184739Z&X-Amz-SignedHeaders=host&X-Amz-Expires=86400&X-Amz-Credential=AKIAJFEYRBGIHK2BBYKA%2F20191008%2Fus-east-1%2Fs3%2Faws4_request&X-Amz-Signature=e3e20c77bd812caf6b2662f6b804c8e57504a5d2f629802da8d3f85d650da266",
+          "examplePhrases": [],
+          "keywords": []
+        }
+      },
+      "isAvailableWorldwide": true,
+      "distributionCountries": []
+    }
+  }
+}
